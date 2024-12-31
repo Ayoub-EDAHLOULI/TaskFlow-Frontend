@@ -1,4 +1,4 @@
-import React from "react";
+import "./TaskCard.scss";
 
 function TaskCard() {
   return <div>TaskCard</div>;

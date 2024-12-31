@@ -1,10 +1,13 @@
 import SideBar from "../components/SideBar/SideBar";
 import TaskList from "../components/TaskList/TaskList";
+import "./Dashboard.scss";
 
 function Dashboard() {
   return (
     <div className="dashboard">
-      <SideBar />
+      <div className="dashboard__sidebar">
+        <SideBar />
+      </div>
       <main className="main_content">
         <TaskList />
       </main>

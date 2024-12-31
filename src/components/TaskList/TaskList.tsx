@@ -1,4 +1,4 @@
-import React from "react";
+import "./TaskList.scss";
 
 function TaskList() {
   return <div>TaskList</div>;
