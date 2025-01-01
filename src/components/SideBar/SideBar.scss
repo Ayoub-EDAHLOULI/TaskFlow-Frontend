@@ -57,13 +57,14 @@
 
         .side-bar__itemTwo--button {
           min-width: 100%;
-          height: 50px;
+          height: 45px;
           display: flex;
           justify-content: flex-start;
           align-items: center;
           gap: 10px;
-          border-radius: 10px;
+          border-radius: 6px;
           cursor: pointer;
+          margin: 5px 0;
 
           .side-bar__itemTwo--buttons__button__group {
             display: flex;
@@ -78,16 +79,18 @@
               font-size: 1rem;
               letter-spacing: 0.8px;
               font-weight: 500;
+              cursor: pointer;
             }
 
             .side-bar__itemTwo--buttons__button__icon {
               font-size: 1rem;
             }
           }
+        }
 
-          &:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
+        .side-bar__itemTwo--button--active {
+          background-color: #ff4081;
+          color: white;
         }
       }
     }
@@ -109,6 +112,7 @@
         color: #fff;
         font-size: 0.9rem;
         font-weight: 500;
+        cursor: pointer;
       }
 
       &:hover {

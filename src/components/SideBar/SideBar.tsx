@@ -2,8 +2,22 @@ import "./SideBar.scss";
 import stitchImage from "../../assets/stitch.jpg";
 import { FaCheck, FaHome, FaSignOutAlt, FaTasks } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
+import { useState } from "react";
 
-function SideBar() {
+function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
+  const [activeButton, setActiveButton] = useState<string>("All Tasks");
+
+  const handleButtonClick = (task: string) => {
+    setActiveButton(task);
+    onTaskSelect(task);
+  };
+
+  const getButtonClass = (task: string) => {
+    return task === activeButton
+      ? "side-bar__itemTwo--button side-bar__itemTwo--button--active"
+      : "side-bar__itemTwo--button";
+  };
+
   return (
     <section className="side-bar">
       <div className="side-bar__container">
@@ -16,7 +30,10 @@ function SideBar() {
 
         <div className="side-bar__itemTwo">
           <div className="side-bar__itemTwo--buttons">
-            <div className="side-bar__itemTwo--button">
+            <div
+              className={getButtonClass("All Tasks")}
+              onClick={() => handleButtonClick("All Tasks")}
+            >
               <div className="side-bar__itemTwo--buttons__button__group">
                 <div className="side-bar__itemTwo--buttons__button__icon">
                   <FaHome />
@@ -24,7 +41,10 @@ function SideBar() {
                 <button>All Tasks</button>
               </div>
             </div>
-            <div className="side-bar__itemTwo--button">
+            <div
+              className={getButtonClass("Important")}
+              onClick={() => handleButtonClick("Important")}
+            >
               <div className="side-bar__itemTwo--buttons__button__group">
                 <div className="side-bar__itemTwo--buttons__button__icon">
                   <FaTasks />
@@ -33,7 +53,10 @@ function SideBar() {
                 <button>Importants!</button>
               </div>
             </div>
-            <div className="side-bar__itemTwo--button">
+            <div
+              className={getButtonClass("Completed")}
+              onClick={() => handleButtonClick("Completed")}
+            >
               <div className="side-bar__itemTwo--buttons__button__group">
                 <div className="side-bar__itemTwo--buttons__button__icon">
                   <FaCheck />
@@ -42,7 +65,10 @@ function SideBar() {
                 <button>Completed!</button>
               </div>
             </div>
-            <div className="side-bar__itemTwo--button">
+            <div
+              className={getButtonClass("Do it Now")}
+              onClick={() => handleButtonClick("Do it Now")}
+            >
               <div className="side-bar__itemTwo--buttons__button__group">
                 <div className="side-bar__itemTwo--buttons__button__icon">
                   <MdEditDocument />
