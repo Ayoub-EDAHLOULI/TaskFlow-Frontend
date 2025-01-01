@@ -25,6 +25,21 @@ function Register() {
     e.preventDefault();
     console.log(data);
 
+    try {
+      // Send data to the server
+      const response = fetch("http://localhost:5174/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     // Reset form after submitting
     setData({
       username: "",
