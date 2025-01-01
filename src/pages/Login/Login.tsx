@@ -1,18 +1,59 @@
 import "./Login.scss";
+import { useState } from "react";
+
+interface LoginData {
+  username: string;
+  password: string;
+}
 
 function Login() {
+  const [data, setData] = useState<LoginData>({
+    username: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+
+    setData({
+      ...data,
+      [id]: value,
+    });
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(data);
+
+    // Reset form after submitting
+    setData({
+      username: "",
+      password: "",
+    });
+  };
+
   return (
     <section className="login">
       <div className="login__container">
         <h1 className="login__title">Login</h1>
-        <form className="login__form">
+        <form className="login__form" onSubmit={handleFormSubmit}>
           <div className="login__form-group">
             <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={handleInputChange}
+            />
           </div>
           <div className="login__form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleInputChange}
+            />
           </div>
           <button type="submit" className="login__form-button">
             Login

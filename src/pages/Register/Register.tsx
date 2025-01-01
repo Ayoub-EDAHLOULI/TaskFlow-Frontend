@@ -1,18 +1,59 @@
 import "./Register.scss";
+import { useState } from "react";
+
+interface RegisterData {
+  username: string;
+  password: string;
+}
 
 function Register() {
+  const [data, setData] = useState<RegisterData>({
+    username: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+
+    setData({
+      ...data,
+      [id]: value,
+    });
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(data);
+
+    // Reset form after submitting
+    setData({
+      username: "",
+      password: "",
+    });
+  };
+
   return (
     <section className="register">
       <div className="register__container">
         <h1 className="register__title">Register</h1>
-        <form className="register__form">
+        <form className="register__form" onSubmit={handleFormSubmit}>
           <div className="register__form-group">
             <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={handleInputChange}
+            />
           </div>
           <div className="register__form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleInputChange}
+            />
           </div>
           <button type="submit" className="register__form-button">
             Register
