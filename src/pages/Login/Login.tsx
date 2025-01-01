@@ -1,5 +1,7 @@
 import "./Login.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface LoginData {
   username: string;
@@ -21,15 +23,54 @@ function Login() {
     });
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(data);
 
-    // Reset form after submitting
-    setData({
-      username: "",
-      password: "",
-    });
+    // Send data to the server
+    try {
+      const response = await fetch("http://localhost:5174/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        // Store token in local storage
+        localStorage.setItem("token", result.token);
+
+        // Reset form after submitting
+        setData({
+          username: "",
+          password: "",
+        });
+
+        // Show success message
+        toast.success("Login successful", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        // Redirect to dashboard
+        window.location.href = "/";
+      } else {
+        // Show error message
+        toast.error(result.message || "Invalid credentials", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Show error message
+      toast.error("An error occurred", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (

@@ -1,5 +1,7 @@
 import "./Register.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface RegisterData {
   username: string;
@@ -21,13 +23,13 @@ function Register() {
     });
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(data);
 
     try {
       // Send data to the server
-      const response = fetch("http://localhost:5174/api/auth/register", {
+      const response = await fetch("http://localhost:5174/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,16 +37,40 @@ function Register() {
         body: JSON.stringify(data),
       });
 
-      console.log("Response:", response);
+      const result = await response.json();
+      console.log(result);
+
+      if (response.ok) {
+        // Show success message
+        toast.success("Registration successful", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        // Reset form after submitting
+        setData({
+          username: "",
+          password: "",
+        });
+
+        // Redirect to login page
+        window.location.href = "/login";
+      } else {
+        // Show error message
+        toast.error(result.message || "Registration failed", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
     } catch (error) {
       console.error("Error:", error);
-    }
 
-    // Reset form after submitting
-    setData({
-      username: "",
-      password: "",
-    });
+      // Show error message
+      toast.error("Registration failed", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
