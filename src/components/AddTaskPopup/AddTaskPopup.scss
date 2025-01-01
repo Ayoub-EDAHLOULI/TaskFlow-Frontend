@@ -1,0 +1,105 @@
+.add-task-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  // Close button
+  .add-task-popup__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+
+    .add-task-popup__close__icon {
+      color: #fff;
+      font-size: 1.8rem;
+    }
+  }
+
+  .add-task-popup__container {
+    width: 35%;
+    height: 76%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #212121;
+    border-radius: 10px;
+
+    .add-task-popup__form {
+      width: 96%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+
+      .add-task-popup__label {
+        font-size: 0.9rem;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .add-task-popup__input {
+        width: 100%;
+        padding: 0.6rem;
+        background-color: #131313;
+        border: 1px solid #000;
+        border-radius: 5px;
+      }
+
+      .add-task-popup__textarea {
+        width: 100%;
+        height: 9rem;
+        padding: 0.6rem;
+        background-color: #131313;
+        border: 1px solid #000;
+        border-radius: 5px;
+      }
+
+      .add-task-popup__toogle__container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.8rem 0;
+        gap: 3rem;
+
+        .add-task-popup__toogle__group {
+          display: flex;
+          gap: 1rem;
+
+          .add-task-popup__toogle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .add-task-popup__button {
+        width: 104%;
+        height: 2.3rem;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        margin-top: 1rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
