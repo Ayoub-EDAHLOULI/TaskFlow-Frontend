@@ -1,22 +1,31 @@
 import { MdDelete, MdEditDocument } from "react-icons/md";
 import "./TaskCard.scss";
 
-function TaskCard() {
+interface Task {
+  title: string;
+  description: string;
+  dueDate: string;
+  isComplete: boolean;
+  isImportant: boolean;
+}
+
+function TaskCard({ task }: { task: Task }) {
   return (
     <section className="task-card">
       <div className="task-card__container">
-        <h2 className="task-card__title">Task Title</h2>
+        <h2 className="task-card__title">{task.title}</h2>
         <div className="task-card__description">
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit,
-            consectetur adipisicing elit. Velit, consectetur adipisicing elit.
+            {task.description.length > 100
+              ? task.description.substring(0, 100) + "..."
+              : task.description}
           </p>
         </div>
         <div className="task-card__date">
-          <p>01/01/2025</p>
+          <p>{task.dueDate}</p>
         </div>
         <div className="task-card__buttom">
-          <button>Completed</button>
+          <button>{task.isComplete ? "Completed" : "InCompleted"}</button>
           <div className="task-card__buttom__icons">
             <div className="task-card__buttom__icons__edit">
               <MdEditDocument />
