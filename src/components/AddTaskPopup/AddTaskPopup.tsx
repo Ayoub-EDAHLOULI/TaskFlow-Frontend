@@ -1,6 +1,10 @@
 import { IoClose } from "react-icons/io5";
 import "./AddTaskPopup.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios"; // Import axios
 
 interface AddTaskPopupProps {
   setShowPopup: (show: boolean) => void;
@@ -9,18 +13,16 @@ interface AddTaskPopupProps {
 interface Task {
   title: string;
   description: string;
-  date: string;
-  completed: boolean;
-  important: boolean;
+  isComplete: boolean;
+  isImportant: boolean;
 }
 
 function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
   const [task, setTask] = useState<Task>({
     title: "",
     description: "",
-    date: "",
-    completed: false,
-    important: false,
+    isComplete: false,
+    isImportant: false,
   });
 
   const handleInputChange = (
@@ -42,9 +44,83 @@ function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Get the user Id from the token
+  const getUserIdFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const decodedToken = jwtDecode(token); // Decode the JWT token
+      return decodedToken.sub; // Use the 'sub' field for the user ID
+    } catch (error) {
+      console.error("Failed to decode token", error);
+      return null;
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(task);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return; // handle the error
+    }
+
+    const userId = getUserIdFromToken(); // Get the userId
+
+    if (!userId) {
+      console.error("User ID is missing");
+      return;
+    }
+
+    // Send data to the server using axios
+    try {
+      const response = await axios.post(
+        "http://localhost:5174/api/taskitems",
+        {
+          ...task, // Spread the task object
+          userId: parseInt(userId), // Add the userId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const result = response.data; // Axios automatically parses JSON
+
+      if (response.status === 200) {
+        // Reset form after submitting
+        setTask({
+          title: "",
+          description: "",
+          isComplete: false,
+          isImportant: false,
+        });
+
+        // Show success message
+        toast.success("Task added successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } else {
+        console.error("An error occurred", result.message);
+        toast.error(result.message, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+      toast.error("An error occurred. Please try again later", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
+
     setShowPopup(false); // Close popup after submitting
   };
 
@@ -80,7 +156,7 @@ function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
             onChange={handleInputChange}
           ></textarea>
 
-          <label htmlFor="date" className="add-task-popup__label">
+          {/* <label htmlFor="date" className="add-task-popup__label">
             Task Date
           </label>
           <input
@@ -89,7 +165,7 @@ function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
             className="add-task-popup__input"
             value={task.date}
             onChange={handleInputChange}
-          />
+          /> */}
 
           <div className="add-task-popup__toogle__container">
             <div className="add-task-popup__toogle__group">
@@ -98,9 +174,9 @@ function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
               </label>
               <input
                 type="checkbox"
-                id="completed"
+                id="isComplete"
                 className="add-task-popup__toogle"
-                checked={task.completed}
+                checked={task.isComplete}
                 onChange={handleInputChange}
               />
             </div>
@@ -110,9 +186,9 @@ function AddTaskPopup({ setShowPopup }: AddTaskPopupProps) {
               </label>
               <input
                 type="checkbox"
-                id="important"
+                id="isImportant"
                 className="add-task-popup__toogle"
-                checked={task.important}
+                checked={task.isImportant}
                 onChange={handleInputChange}
               />
             </div>

@@ -2,7 +2,8 @@ import "./SideBar.scss";
 import stitchImage from "../../assets/stitch.jpg";
 import { FaCheck, FaHome, FaSignOutAlt, FaTasks } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
   const [activeButton, setActiveButton] = useState<string>("All Tasks");
@@ -17,6 +18,25 @@ function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
       ? "side-bar__itemTwo--button side-bar__itemTwo--button--active"
       : "side-bar__itemTwo--button";
   };
+
+  // Get the user Id from the token
+  const getUserIdFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const decodedToken = jwtDecode(token); // Decode the JWT token
+      return decodedToken.sub; // Use the 'sub' field for the user ID
+    } catch (error) {
+      console.error("Failed to decode token", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const userId = getUserIdFromToken();
+    console.log("User Id", userId);
+  }, []);
 
   return (
     <section className="side-bar">
