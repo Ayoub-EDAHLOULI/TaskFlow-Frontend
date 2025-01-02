@@ -25,7 +25,9 @@ function TaskCard({ task }: { task: Task }) {
           <p>{task.dueDate}</p>
         </div>
         <div className="task-card__buttom">
-          <button>{task.isComplete ? "Completed" : "InCompleted"}</button>
+          <button className={task.isComplete ? "completed" : "incomplete"}>
+            {task.isComplete ? "Completed" : "InCompleted"}
+          </button>
           <div className="task-card__buttom__icons">
             <div className="task-card__buttom__icons__edit">
               <MdEditDocument />

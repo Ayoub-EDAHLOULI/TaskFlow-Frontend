@@ -61,8 +61,15 @@
         color: #fff;
         font-weight: 500;
         letter-spacing: 0.5px;
-        background-color: #69b068;
         cursor: pointer;
+
+        &.completed {
+          background-color: #63ad67;
+        }
+
+        &.incomplete {
+          background-color: #dc7160;
+        }
       }
 
       .task-card__buttom__icons {
