@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import UpdateTaskPopup from "../UpdatedTaskPopup/UpdatedTaskPopup";
+import Swal from "sweetalert2";
 
 interface Task {
   id: number;
@@ -57,6 +58,45 @@ function TaskCard({ task }: { task: Task }) {
     }
   };
 
+  // Handle delete button click with SweetAlert confirmation
+  const handleDeleteButtonClick = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(
+            `http://localhost:5174/api/taskitems/${currentTask.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (response.ok) {
+            toast.success("Task deleted successfully", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+          } else {
+            throw new Error("Failed to delete task");
+          }
+        } catch (error) {
+          toast.error(String(error), {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      }
+    });
+    setCurrentTask({ ...currentTask, isComplete: task.isComplete });
+  };
+
   return (
     <section className="task-card">
       <div className="task-card__container">
@@ -85,7 +125,10 @@ function TaskCard({ task }: { task: Task }) {
             >
               <MdEditDocument />
             </div>
-            <div className="task-card__buttom__icons__delete">
+            <div
+              className="task-card__buttom__icons__delete"
+              onClick={handleDeleteButtonClick} // Delete the task with confirmation
+            >
               <MdDelete />
             </div>
           </div>

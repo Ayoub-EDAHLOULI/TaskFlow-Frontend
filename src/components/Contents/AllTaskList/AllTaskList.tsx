@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 interface Task {
+  id: number;
   title: string;
   description: string;
   dueDate: string;
