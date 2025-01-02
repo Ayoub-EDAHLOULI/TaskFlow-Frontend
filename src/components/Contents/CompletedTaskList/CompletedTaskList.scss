@@ -1,0 +1,30 @@
+.completed-task-list {
+  width: 100%;
+  height: calc(100vh - 100px); // Fit within the viewport
+  overflow-y: auto;
+
+  .completed-task-list__container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding-right: 5px; // Adjust for scrollbar
+
+    &::-webkit-scrollbar {
+      width: 4px; // Thin scrollbar
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    // Firefox
+    scrollbar-width: thin; // Makes the scrollbar thin
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+}

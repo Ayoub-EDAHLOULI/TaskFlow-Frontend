@@ -39,7 +39,7 @@ function AllTaskList() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5174/api/user/${userId}/tasks`
+        `http://localhost:5174/api/user/tasks/${userId}`
       );
       setTasks(response.data.tasks);
     } catch (error) {

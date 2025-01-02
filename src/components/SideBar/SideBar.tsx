@@ -34,8 +34,7 @@ function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
   };
 
   useEffect(() => {
-    const userId = getUserIdFromToken();
-    console.log("User Id", userId);
+    getUserIdFromToken();
   }, []);
 
   return (
@@ -100,16 +99,15 @@ function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
           </div>
         </div>
 
-        <div className="side-bar__itemThree">
+        <div
+          className="side-bar__itemThree"
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.href = "/login";
+          }}
+        >
           <FaSignOutAlt />
-          <button
-            onClick={() => {
-              localStorage.removeItem("token");
-              window.location.href = "/login";
-            }}
-          >
-            Sign Out
-          </button>
+          <button>Sign Out</button>
         </div>
       </div>
     </section>

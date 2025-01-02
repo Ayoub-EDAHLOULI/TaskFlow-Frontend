@@ -36,7 +36,7 @@ function CompletedTaskList() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5174/api/user/${userId}/tasks`
+        `http://localhost:5174/api/user/tasks/${userId}`
       );
       const completedTasks = response.data.tasks.filter(
         (task: Task) => task.isComplete

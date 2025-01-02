@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 interface Task {
+  id: number;
   title: string;
   description: string;
   dueDate: string;
@@ -36,7 +37,7 @@ function ImportantTaskList() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5174/api/user/${userId}/tasks`
+        `http://localhost:5174/api/user/tasks/${userId}`
       );
       const importantTasks = response.data.tasks.filter(
         (task: Task) => task.isImportant
