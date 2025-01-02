@@ -1,7 +1,8 @@
+import ImportantTaskList from "../ImportantTaskList/ImportantTaskList";
 import "./DoItNowTakList.scss";
 
 function DoItNowTakList() {
-  return <div>DoItNowTakList</div>;
+  return <ImportantTaskList />;
 }
 
 export default DoItNowTakList;

@@ -17,7 +17,7 @@ function TaskList({ selected }: TaskListProps) {
         return <ImportantTaskList />;
       case "Completed":
         return <CompletedTaskList />;
-      case "Do It Now":
+      case "Do it Now":
         return <DoItNowTaskList />;
       default:
         return <AllTaskList />;
