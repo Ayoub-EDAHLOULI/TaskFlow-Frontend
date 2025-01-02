@@ -3,6 +3,7 @@ import "./TaskCard.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import UpdateTaskPopup from "../UpdatedTaskPopup/UpdatedTaskPopup";
 
 interface Task {
   id: number;
@@ -15,6 +16,12 @@ interface Task {
 
 function TaskCard({ task }: { task: Task }) {
   const [currentTask, setCurrentTask] = useState(task);
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Callback function to update the task in the parent
+  const updateTaskInParent = (updatedTask: Task) => {
+    setCurrentTask(updatedTask);
+  };
 
   const handleButtonClick = async () => {
     const updatedTask = { ...currentTask, isComplete: !currentTask.isComplete };
@@ -72,7 +79,10 @@ function TaskCard({ task }: { task: Task }) {
             {currentTask.isComplete ? "Completed" : "Incomplete"}
           </button>
           <div className="task-card__buttom__icons">
-            <div className="task-card__buttom__icons__edit">
+            <div
+              className="task-card__buttom__icons__edit"
+              onClick={() => setShowPopup(true)} // Open the popup
+            >
               <MdEditDocument />
             </div>
             <div className="task-card__buttom__icons__delete">
@@ -81,6 +91,15 @@ function TaskCard({ task }: { task: Task }) {
           </div>
         </div>
       </div>
+
+      {/* Conditionally render the UpdateTaskPopup */}
+      {showPopup && (
+        <UpdateTaskPopup
+          task={currentTask}
+          setShowPopup={setShowPopup}
+          updateTaskInParent={updateTaskInParent} // Pass the function as a prop
+        />
+      )}
     </section>
   );
 }
