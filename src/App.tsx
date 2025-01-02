@@ -9,9 +9,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute element={<Dashboard />} requiredRole="User" />
+          }
+        />
         <Route
           path="/admin"
           element={

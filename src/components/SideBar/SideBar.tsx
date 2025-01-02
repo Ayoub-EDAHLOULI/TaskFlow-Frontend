@@ -102,7 +102,14 @@ function SideBar({ onTaskSelect }: { onTaskSelect: (task: string) => void }) {
 
         <div className="side-bar__itemThree">
           <FaSignOutAlt />
-          <button>Sign Out</button>
+          <button
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/login";
+            }}
+          >
+            Sign Out
+          </button>
         </div>
       </div>
     </section>
