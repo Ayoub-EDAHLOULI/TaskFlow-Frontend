@@ -54,8 +54,19 @@ function Login() {
           autoClose: 3000,
         });
 
-        // Redirect to dashboard
-        window.location.href = "/";
+        // Redirect to dashboard if role is user
+        const decodedToken = JSON.parse(atob(result.token.split(".")[1]));
+        const userRole =
+          decodedToken[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
+
+        if (userRole === "User") {
+          window.location.href = "/";
+        } else {
+          // Redirect to admin dashboard if role is admin
+          window.location.href = "/admin";
+        }
       } else {
         // Show error message
         toast.error(result.message || "Invalid credentials", {
