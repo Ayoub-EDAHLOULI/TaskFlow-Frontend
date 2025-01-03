@@ -1,61 +1,27 @@
 import "./ImportantTaskList.scss";
 import TaskCard from "../../TaskCard/TaskCard";
-import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  dueDate: string;
-  isComplete: boolean;
-  isImportant: boolean;
-}
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../../store/store";
+import { fetchTasks } from "../../../store/taskSlice";
 
 function ImportantTaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
 
-  // Get the user Id from the token
-  const getUserIdFromToken = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
+  // Get the tasks from the store
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
-    try {
-      const decodedToken = jwtDecode(token); // Decode the JWT token
-      return decodedToken.sub; // Use the 'sub' field for the user ID
-    } catch (error) {
-      console.error("Failed to decode token", error);
-      return null;
-    }
-  };
-
-  // Fetch only important tasks
-  const fetchImportantTasks = async () => {
-    const userId = getUserIdFromToken();
-    if (!userId) return;
-
-    try {
-      const response = await axios.get(
-        `http://localhost:5174/api/user/tasks/${userId}`
-      );
-      const importantTasks = response.data.tasks.filter(
-        (task: Task) => task.isImportant
-      );
-      setTasks(importantTasks);
-    } catch (error) {
-      console.error("Failed to fetch important tasks", error);
-    }
-  };
+  // Filter the tasks to get only the important tasks
+  const importantTasks = tasks.filter((task) => task.isImportant);
 
   useEffect(() => {
-    fetchImportantTasks();
-  }, []);
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   return (
     <section className="important-task-list">
       <div className="important-task-list__container">
-        {tasks.map((task, index) => (
+        {importantTasks.map((task, index) => (
           <TaskCard key={index} task={task} />
         ))}
       </div>
