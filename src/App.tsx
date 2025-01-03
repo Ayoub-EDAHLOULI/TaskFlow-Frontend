@@ -1,9 +1,13 @@
-import Dashboard from "./pages/Dashboard/Dashboard";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 import ProtectedRoute from "./ProtectedRoute";
+import { lazy } from "react";
+
+const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Register = lazy(() => import("./pages/Register/Register"));
+const AdminDashboard = lazy(
+  () => import("./pages/Admin/AdminDashboard/AdminDashboard")
+);
 
 function App() {
   return (

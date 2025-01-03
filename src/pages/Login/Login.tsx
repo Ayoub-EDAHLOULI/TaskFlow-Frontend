@@ -25,7 +25,6 @@ function Login() {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(data);
 
     // Send data to the server
     try {

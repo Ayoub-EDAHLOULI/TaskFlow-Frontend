@@ -94,7 +94,6 @@ function TaskCard({ task }: { task: Task }) {
         }
       }
     });
-    setCurrentTask({ ...currentTask, isComplete: task.isComplete });
   };
 
   return (

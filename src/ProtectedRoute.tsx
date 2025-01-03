@@ -20,9 +20,6 @@ const ProtectedRoute = ({
       "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
     ];
 
-  console.log("decodedToken", decodedToken);
-  console.log("userRole", userRole);
-
   if (requiredRole && requiredRole !== userRole) {
     return <Navigate to="/" />;
   }
